@@ -1,1 +1,186 @@
-welcome
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرحباً بك في موقعي</title>
+    <style>
+        /* إعادة ضبط الإعدادات الأساسية */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+        }
+
+        /* الخلفية المتدرجة المتحركة */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            text-align: center;
+            color: white;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* العنوان الرئيسي */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* النص الترحيبي */
+        .welcome-text {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        /* تأثير الكتابة */
+        .typing {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-height: 40px;
+            margin-bottom: 30px;
+            color: #fff59d;
+        }
+
+        .typing::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* الزر */
+        .btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: white;
+            color: #764ba2;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: #fff59d;
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(1);
+        }
+
+        /* التكيف مع الشاشات الصغيرة */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .welcome-text { font-size: 1rem; }
+            .typing { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>👋 مرحباً بك</h1>
+        <p class="welcome-text">أهلاً وسهلاً في موقعي الشخصي</p>
+        <p class="typing" id="typingText"></p>
+        <button class="btn" onclick="startJourney()">ابدأ الرحلة 🚀</button>
+    </div>
+
+    <script>
+        // === تأثير الكتابة التلقائية ===
+        const phrases = [
+            "مطور ويب محترف 💻",
+            "مصمم واجهات إبداعية 🎨",
+            "شغوف بالتكنولوجيا ⚡",
+            "أحوّل الأفكار إلى واقع 🌟"
+        ];
+        
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typingText');
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                // حذف الحروف
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                // كتابة الحروف
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            // عند انتهاء الكتابة، ابدأ الحذف
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typeSpeed = 1500; // انتظر قليلاً قبل الحذف
+            } 
+            // عند انتهاء الحذف، انتقل للعبارة التالية
+            else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        // بدء التأثير عند تحميل الصفحة
+        typeEffect();
+
+        // === وظيفة الزر ===
+        function startJourney() {
+            alert("مرحباً بك في رحلتي! 🎉\nتصفح أعماري ومشاريعي.");
+            // يمكنك استبدال هذا السطر بـ:
+            // window.location.href = "portfolio.html";
+            // للانتقال لصفحة أخرى
+        }
+    </script>
+
+</body>
+</html>
